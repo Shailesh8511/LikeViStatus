@@ -1,1 +1,37 @@
+// backend/server.js
+const express = require('express');
+const axios = require('axios');
+const app = express();
 
+app.use(express.json());
+app.use(express.static('../frontend'));
+
+app.post('/download', async (req, res) => {
+    try {
+        const { url } = req.body;
+        
+        // Instagram API logic here (Note: Instagram's official API doesn't support this)
+        // You would need to use web scraping or alternative methods
+        
+        // This is a placeholder - in reality you'd need to implement proper scraping
+        const videoUrl = await getReelVideoUrl(url);
+        
+        res.json({ 
+            success: true,
+            downloadUrl: videoUrl
+        });
+    } catch (error) {
+        res.json({
+            success: false,
+            message: error.message
+        });
+    }
+});
+
+async function getReelVideoUrl(url) {
+    // Implement actual scraping logic here
+    // Warning: This may violate Instagram's ToS
+    return "https://example.com/video.mp4";
+}
+
+app.listen(3000, () => console.log('Server running'));
