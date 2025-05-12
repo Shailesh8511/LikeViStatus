@@ -1,1 +1,38 @@
+<!-- index.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Instagram Reels Downloader</title>
+    <meta name="description" content="Download Instagram Reels videos fast & free">
+</head>
+<body>
+    <h1>Instagram Reels Downloader</h1>
+    <input type="text" id="reelUrl" placeholder="Enter Reel URL">
+    <button onclick="downloadReel()">Download</button>
+    <div id="result"></div>
 
+    <script>
+        async function downloadReel() {
+            const url = document.getElementById('reelUrl').value;
+            const resultDiv = document.getElementById('result');
+            
+            try {
+                const response = await fetch('/download', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ url })
+                });
+                
+                const data = await response.json();
+                if (data.success) {
+                    resultDiv.innerHTML = `<a href="${data.downloadUrl}" download>Download Video</a>`;
+                } else {
+                    resultDiv.innerHTML = "Error: " + data.message;
+                }
+            } catch (error) {
+                resultDiv.innerHTML = "An error occurred";
+            }
+        }
+    </script>
+</body>
+</html>
